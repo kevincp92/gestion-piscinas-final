@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Nueva Piscina</title>
+    <!-- Enlazar Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .main-container {
+            padding: 30px;
+        }
+        .form-control, .btn {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Administración de Piscinas</a>
+    </nav>
+
+    <!-- Contenedor principal -->
+    <div class="container main-container">
+        <h1 class="text-center mb-4">Agregar Nueva Piscina</h1>
+
+        <!-- Formulario para agregar nueva piscina -->
+        <div class="card">
+            <div class="card-header">
+                Ingrese los datos de la nueva piscina
+            </div>
+            <div class="card-body">
+                <form action="" method="POST">
+                    <!-- Campo de Dirección -->
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <input type="text" class="form-control" name="direccion" id="direccion" required>
+                    </div>
+
+                    <!-- Campo de Nombre -->
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" name="nombre" id="nombre" required>
+                    </div>
+
+                    <!-- Campo de Tamaño -->
+                    <div class="form-group">
+                        <label for="tamano">Tamaño</label>
+                        <input type="text" class="form-control" name="tamano" id="tamano">
+                    </div>
+
+                    <!-- Campo de Tipo de Tratamiento -->
+                    <div class="form-group">
+                        <label for="tipo_tratamiento">Tipo de Tratamiento</label>
+                        <input type="text" class="form-control" name="tipo_tratamiento" id="tipo_tratamiento">
+                    </div>
+
+                    <!-- Campo de Metros Cúbicos -->
+                    <div class="form-group">
+                        <label for="metros_cubicos">Metros Cúbicos</label>
+                        <input type="number" class="form-control" name="metros_cubicos" id="metros_cubicos" min="0">
+                    </div>
+
+                    <!-- Campo de Otros -->
+                    <div class="form-group">
+                        <label for="otros">Otros</label>
+                        <textarea class="form-control" name="otros" id="otros"></textarea>
+                    </div>
+
+                    <!-- Botón para enviar el formulario -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Agregar Piscina</button>
+                        <a href="/" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.

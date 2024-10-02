@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Piscinas</title>
+    <!-- Enlazar Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .main-container {
+            padding: 30px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .delete-btn {
+            background-color: #dc3545;  /* Color de fondo rojo (Bootstrap) */
+            color: black;               /* Color del texto en negro */
+            border: 1px solid #dc3545;  /* Borde rojo */
+        }
+        .delete-btn:hover {
+            background-color: #c82333;  /* Color de fondo rojo más oscuro al hacer hover */
+            color: black;               /* Mantener el texto en negro */
+        }
+        .dragging {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Administración de Piscinas</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/agregar-piscina">Agregar Nueva Piscina</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenedor principal -->
+    <div class="container main-container">
+        <h1 class="text-center mb-4">Lista de Piscinas</h1>
+        <h4 class="text-right">Total de Piscinas: <span class="badge badge-primary">{{ total_piscinas }}</span></h4>
+
+        <!-- Tabla de Piscinas -->
+        <table class="table table-striped table-hover table-bordered" id="piscinas-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Dirección</th>
+                    <th>Nombre</th>
+                    <th>Registrar Mantenimiento</th>
+                    <th>Ver Info</th>
+                    <th>Editar Piscina</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for piscina in piscinas %}
+                <tr data-id="{{ piscina['id'] }}" draggable="true">
+                    <td>{{ piscina['direccion'] }}</td>
+                    <td>{{ piscina['nombre'] }}</td>
+                    <!-- Asegurarse de que las rutas sean correctas usando url_for -->
+                    <td><a href="{{ url_for('registrar_mantenimiento', piscina_id=piscina['id']) }}" class="btn btn-sm btn-warning">Registrar Mantenimiento</a></td>
+                    <td><a href="{{ url_for('detalle_piscina', piscina_id=piscina['id']) }}" class="btn btn-sm btn-info">Ver Info</a></td>
+                    <td><a href="{{ url_for('editar_piscina', piscina_id=piscina['id']) }}" class="btn btn-sm btn-primary">Editar</a></td>
+                    <td><button type="button" class="btn btn-sm delete-btn" onclick="eliminarPiscina({{ piscina['id'] }})">Eliminar</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Botón para guardar el nuevo orden de las piscinas -->
+        <div class="text-center">
+            <button id="guardar-orden" class="btn btn-success">Guardar Orden</button>
+        </div>
+    </div>
+
+    <!-- JavaScript de Bootstrap y librería Fetch -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Función para eliminar piscina con confirmación
+        function eliminarPiscina(piscinaId) {
+            var confirmar = confirm("¿Estás seguro de que deseas eliminar esta piscina?");
+            if (confirmar) {
+                fetch('/eliminar-piscina/' + piscinaId, { 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Hubo un error al eliminar la piscina.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Hubo un error al intentar eliminar la piscina.');
+                });
+            }
+        }
+
+        // Habilitar arrastrar y soltar para reordenar
+        const table = document.getElementById('piscinas-table');
+        const rows = table.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            row.addEventListener('dragstart', () => {
+                row.classList.add('dragging');
+            });
+
+            row.addEventListener('dragend', () => {
+                row.classList.remove('dragging');
+            });
+
+            row.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const draggingRow = document.querySelector('.dragging');
+                const currentRow = row;
+                if (draggingRow !== currentRow) {
+                    const rect = currentRow.getBoundingClientRect();
+                    const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+                    currentRow.parentNode.insertBefore(draggingRow, next ? currentRow.nextSibling : currentRow);
+                }
+            });
+        });
+
+        // Guardar el nuevo orden al hacer clic en "Guardar Orden"
+        document.getElementById('guardar-orden').addEventListener('click', function() {
+            const orden = Array.from(rows).map((row, index) => {
+                return {
+                    id: row.getAttribute('data-id'),
+                    orden: index + 1 // Asignar nuevo orden basado en la posición actual
+                };
+            });
+
+            // Enviar el nuevo orden al servidor
+            fetch('/actualizar-orden', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orden.reduce((acc, curr) => {
+                    acc[curr.id] = curr.orden;
+                    return acc;
+                }, {}))
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Orden guardado con éxito.');
+                } else {
+                    alert('Hubo un error al guardar el orden.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un error al intentar guardar el orden.');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Mantenimiento</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Administración de Piscinas</a>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Editar Mantenimiento</h1>
+        <div class="card">
+            <div class="card-body">
+                <form action="" method="POST">
+                    <div class="form-group">
+                        <label for="barredora">Uso de Barredora</label>
+                        <input type="text" class="form-control" id="barredora" name="barredora" value="{{ mantenimiento['barredora'] }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pastillas_cloro">Pastillas de Cloro</label>
+                        <input type="number" class="form-control" id="pastillas_cloro" name="pastillas_cloro" value="{{ mantenimiento['pastillas_cloro'] }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="alguicida">Alguicida</label>
+                        <input type="text" class="form-control" id="alguicida" name="alguicida" value="{{ mantenimiento['alguicida'] }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="carbonato">Carbonato</label>
+                        <input type="text" class="form-control" id="carbonato" name="carbonato" value="{{ mantenimiento['carbonato'] }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="floculante">Floculante</label>
+                        <input type="text" class="form-control" id="floculante" name="floculante" value="{{ mantenimiento['floculante'] }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="choque">Cloro de Choque</label>
+                        <input type="text" class="form-control" id="choque" name="choque" value="{{ mantenimiento['choque'] }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bicarbonato">Bicarbonato</label>
+                        <input type="text" class="form-control" id="bicarbonato" name="bicarbonato" value="{{ mantenimiento['bicarbonato'] }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="acido">Ácido</label>
+                        <input type="text" class="form-control" id="acido" name="acido" value="{{ mantenimiento['acido'] }}">
+                    </div>
+
+                    <input type="hidden" name="piscina_id" value="{{ mantenimiento['piscina_id'] }}">
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                        <a href="/" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

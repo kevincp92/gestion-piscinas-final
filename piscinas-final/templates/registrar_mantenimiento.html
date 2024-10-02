@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Mantenimiento</title>
+    <!-- Enlazar Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .main-container {
+            padding: 30px;
+        }
+        .form-control, .btn {
+            margin-bottom: 15px;
+        }
+        .btn-barredora {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">Administración de Piscinas</a>
+    </nav>
+
+    <!-- Contenedor principal -->
+    <div class="container main-container">
+        <h1 class="text-center mb-4">Registrar Mantenimiento</h1>
+
+        <!-- Formulario para registrar el mantenimiento -->
+        <div class="card">
+            <div class="card-header">
+                Ingrese los datos del mantenimiento
+            </div>
+            <div class="card-body">
+                <form action="" method="POST">
+                    <!-- Botones de Barredora (Sí o No) -->
+                    <div class="form-group">
+                        <label>¿Se usó la Barredora?</label><br>
+                        <button type="button" class="btn btn-outline-primary btn-barredora" onclick="seleccionarBarredora('Sí')">Sí</button>
+                        <button type="button" class="btn btn-outline-secondary btn-barredora" onclick="seleccionarBarredora('No')">No</button>
+                        <!-- Input oculto para enviar el valor de la barredora seleccionado -->
+                        <input type="hidden" name="barredora" id="barredora-input" value="No">
+                    </div>
+
+                    <!-- Campo de pastillas de cloro -->
+                    <div class="form-group">
+                        <label for="pastillas_cloro">Pastillas de Cloro</label>
+                        <input type="number" class="form-control" name="pastillas_cloro" id="pastillas_cloro" min="0" value="0">
+                    </div>
+
+                    <!-- Campo de Alguicida -->
+                    <div class="form-group">
+                        <label for="alguicida">Alguicida</label>
+                        <input type="text" class="form-control" name="alguicida" id="alguicida">
+                    </div>
+
+                    <!-- Campo de Carbonato -->
+                    <div class="form-group">
+                        <label for="carbonato">Carbonato</label>
+                        <input type="text" class="form-control" name="carbonato" id="carbonato">
+                    </div>
+
+                    <!-- Campo de Floculante -->
+                    <div class="form-group">
+                        <label for="floculante">Floculante</label>
+                        <input type="text" class="form-control" name="floculante" id="floculante">
+                    </div>
+
+                    <!-- Campo de Choque -->
+                    <div class="form-group">
+                        <label for="choque">Choque</label>
+                        <input type="text" class="form-control" name="choque" id="choque">
+                    </div>
+
+                    <!-- Campo de Bicarbonato -->
+                    <div class="form-group">
+                        <label for="bicarbonato">Bicarbonato</label>
+                        <input type="text" class="form-control" name="bicarbonato" id="bicarbonato">
+                    </div>
+
+                    <!-- Campo de Ácido -->
+                    <div class="form-group">
+                        <label for="acido">Ácido</label>
+                        <input type="text" class="form-control" name="acido" id="acido">
+                    </div>
+
+                    <!-- Botón para enviar el formulario -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Registrar Mantenimiento</button>
+                        <a href="/" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript de Bootstrap y lógica para los botones -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Función para seleccionar la opción de "Sí" o "No" en el campo de Barredora
+        function seleccionarBarredora(valor) {
+            document.getElementById('barredora-input').value = valor;
+
+            // Cambiar estilo de los botones al seleccionar
+            const botones = document.querySelectorAll('.btn-barredora');
+            botones.forEach(btn => {
+                if (btn.innerText === valor) {
+                    btn.classList.remove('btn-outline-secondary');
+                    btn.classList.add('btn-primary');
+                } else {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-outline-secondary');
+                }
+            });
+        }
+
+        // Inicializar con el valor predeterminado "No"
+        seleccionarBarredora('No');
+    </script>
+</body>
+</html>
